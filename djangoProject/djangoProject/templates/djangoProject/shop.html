@@ -1,0 +1,207 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <title>Lugx Gaming - Shop Page</title>
+
+    <!-- Bootstrap core CSS -->
+     <!-- Bootstrap core CSS -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="{% static 'css/fontawesome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+      <link rel="stylesheet" href="{% static 'css/templatemo-lugx-gaming.css' %}">
+<!--
+
+TemplateMo 589 lugx gaming
+
+https://templatemo.com/tm-589-lugx-gaming
+
+-->
+      <style>
+          .logout-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.btn-danger {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+      </style>
+
+  </head>
+
+<body>
+
+  <!-- ***** Preloader Start ***** -->
+  <div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!-- ***** Preloader End ***** -->
+
+  <!-- ***** Header Area Start ***** -->
+  <header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <!-- ***** Logo Start ***** -->
+                    <a href="index.html" class="logo">
+                        <img src="assets/images/logo.png" alt="" style="width: 158px;">
+                    </a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+                    <ul class="nav">
+                      <li><a href="index.html">Home</a></li>
+                      <li><a href="shop.html" class="active">Our Shop</a></li>
+                      <li><a href="product-details.html">Product Details</a></li>
+                      <li><a href="contact.html">Contact Us</a></li>
+                      <li><a href="#">Sign In</a></li>
+
+            <!-- Bouton de déconnexion en haut à gauche -->
+            <form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger logout-btn">Déconnexion</button>
+</form>
+
+                  </ul>
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+  </header>
+  <!-- ***** Header Area End ***** -->
+
+  <div class="page-heading header-text">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <h3>Our Shop</h3>
+          <span class="breadcrumb"><a href="#">Home</a> > Our Shop</span>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+  <div class="section trending">
+    <div class="container">
+<!-- Formulaire de recherche -->
+<div class="filters">
+    <!-- Formulaire de recherche et filtres -->
+    <form id="filtersForm" action="{% url 'shop' %}" method="GET">
+        <!-- Liste déroulante pour la catégorie -->
+        <div class="form-group">
+            <label for="category">Select Category</label>
+            <select id="category" name="category" class="form-control">
+                <option value="">All Categories</option>
+                {% for category in categories %}
+                <option value="{{ category }}" {% if selected_category == category %}selected{% endif %}>{{ category }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Slider pour la fourchette de prix -->
+        <div class="form-group">
+            <label for="priceRange">Price Range: $<span id="priceRangeValue">{{ min_price }} - {{ max_price }}</span></label>
+            <input type="range" id="priceRange" name="price" min="0" max="1000" step="10" value="{{ max_price }}" oninput="updatePriceRange(this.value)" class="form-control">
+        </div>
+
+        <!-- Barre de recherche pour nom de jeu -->
+        <div class="form-group">
+            <input type="text" placeholder="Search for a game" id="searchText" name="searchKeyword" value="{{ search_keyword }}" class="form-control" />
+        </div>
+
+        <!-- Bouton de soumission -->
+        <button type="submit" class="btn btn-primary">Apply Filters</button>
+    </form>
+</div>
+
+<script>
+    function updatePriceRange(value) {
+        document.getElementById('priceRangeValue').innerText = '$0 - $' + value;
+    }
+</script>
+
+<div class="row trending-box">
+    {% for game in games %}
+    <div class="col-lg-3 col-md-6 align-self-center mb-30 trending-items {{ game.category|lower }}">
+        <div class="item">
+            <div class="thumb">
+                <a href="{% url 'product_detail' game.id %}">
+                    <img src="{{ game.image.url }}" alt="{{ game.title }}">
+                </a>
+                <span class="price"><em>${{ game.price }}</em></span>
+            </div>
+            <div class="down-content">
+                <span class="category">{{ game.category }}</span>
+                <h4>{{ game.title }}</h4>
+                <a href="{% url 'product_detail' game.id %}"><i class="fa fa-shopping-bag"></i></a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>No games found.</p>
+    {% endfor %}
+</div>
+
+<div class="row">
+        <div class="col-lg-12">
+          <ul class="pagination">
+          <li><a href="#"> &lt; </a></li>
+            <li><a href="#">1</a></li>
+            <li><a class="is_active" href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#"> &gt; </a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="col-lg-12">
+        <p>Copyright © 2048 LUGX Gaming Company. All rights reserved. &nbsp;&nbsp; <a rel="nofollow" href="https://templatemo.com" target="_blank">Design: TemplateMo</a></p>
+      </div>
+    </div>
+  </footer>
+
+ <!-- Scripts -->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/isotope.min.js' %}"></script>
+  <script src="{% static 'js/owl-carousel.js' %}"></script>
+  <script src="{% static 'js/counter.js' %}"></script>
+  <script src="{% static 'js/custom.js' %}"></script>
+
+  </body>
+</html>
