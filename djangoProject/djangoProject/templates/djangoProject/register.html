@@ -1,0 +1,94 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}"> <!-- Lien vers votre fichier CSS -->
+    <title>Register</title>
+   <style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f8f9fa; /* Couleur de fond douce */
+    }
+
+    .card {
+        border-radius: 15px; /* Coins arrondis */
+        background-color: #24243e; /* Couleur du fond du formulaire */
+        color: white; /* Couleur du texte */
+    }
+
+    .card-header {
+        background-color: #302b63; /* Couleur de fond pour l'en-tête */
+        color: white; /* Couleur du texte de l'en-tête */
+        border-top-left-radius: 15px; /* Arrondir le coin supérieur gauche */
+        border-top-right-radius: 15px; /* Arrondir le coin supérieur droit */
+        text-align: center;
+    }
+
+    .form-control {
+        background-color: #f8f9fa; /* Couleur des champs */
+        border: 2px solid #007bff; /* Bordure bleue */
+        border-radius: 5px; /* Coins arrondis */
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #6d44b8; /* Bordure violette au focus */
+    }
+
+    .btn-primary {
+        background-color: #6d44b8; /* Couleur du bouton */
+        border: none; /* Pas de bordure */
+        width: 100%; /* Prendre toute la largeur */
+    }
+
+    .btn-primary:hover {
+        background-color: #573b8a; /* Couleur au survol */
+    }
+
+    .messages {
+        margin-top: 20px; /* Espace au-dessus des messages */
+    }
+
+    .alert-success {
+        background-color: #302b63; /* Fond des messages */
+        color: #fff; /* Couleur du texte */
+        border: none;
+    }
+</style>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 mt-5">
+                <div class="card shadow">
+                    <div class="card-header text-center">
+                        <h2>Register</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
